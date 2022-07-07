@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:chapisco_tv/core/theme/app_theme.dart';
 import 'package:chapisco_tv/views/login/login_page.dart';
 
 void main() {
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chapisco TV',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.theme,
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,
     );
