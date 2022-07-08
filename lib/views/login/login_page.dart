@@ -36,8 +36,56 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                chapiscoTVLogo
+                Column(
+                  children: [
+                    chapiscoTVLogo,
+                    const SizedBox(height: 48),
+                    const Text(
+                      'Olá, seja bem-vindo(a)!', style: TextStyle(
+                        color: AppColors.whiteColor, 
+                        fontWeight: FontWeight.bold, 
+                        fontSize: 20,
+                        letterSpacing: 1
+                      )
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Por favor, faça login para continuar', style: TextStyle(
+                        color: AppColors.grayColor,
+                        letterSpacing: 1
+                      )
+                    ),
+                    const SizedBox(height: 48),
+                    Form(child: Column(
+                      children: [
+                        TextField(
+                          style: const TextStyle(
+                            color: AppColors.whiteColor, 
+                            fontSize: 14, 
+                            letterSpacing: 1
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Email', 
+                            hintStyle: const TextStyle(
+                              color: AppColors.grayColor, 
+                              fontSize: 14,
+                              letterSpacing: 1
+                            ), 
+                            filled: true, 
+                            fillColor: AppColors.inputBackgroundColor, 
+                            contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24), 
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none, 
+                              borderRadius: BorderRadius.circular(20)
+                            )
+                          ),
+                        )
+                      ],
+                    ))
+                  ],
+                )
               ],
             ),
           ),
