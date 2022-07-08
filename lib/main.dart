@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:chapisco_tv/core/theme/app_theme.dart';
-import 'package:chapisco_tv/views/login/login_page.dart';
+import 'core/theme/app_theme.dart';
+import 'views/login/login_page.dart';
 
 void main() {
   runApp(const MyApp());
