@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -14,31 +15,39 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     const String assetChapiscoTVLogo = 'assets/images/ChapiscoTV Logo.svg';
+    const String assetGoogleLogo = 'assets/images/flat-color-icons_google.svg';
 
     final Widget chapiscoTVLogo = SvgPicture.asset(
       assetChapiscoTVLogo,
-      semanticsLabel: 'ChapiscoTV Logo',
+      semanticsLabel: 'Logo ChapiscoTV',
       height: 48
+    );
+
+    final Widget googleLogo = SvgPicture.asset(
+      assetGoogleLogo,
+      semanticsLabel: 'Logo Google',
+      height: 24
     );
 
     return Scaffold(
       backgroundColor: AppColors.blackColor,
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/Gradient Background - Mobile.png'),
-            fit: BoxFit.cover
-          )
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/Gradient Background - Mobile.png'),
+                fit: BoxFit.cover
+              )
+            ),
+          ),
+          Center(
+            child: SingleChildScrollView(
+              reverse: true,
+              padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     chapiscoTVLogo,
                     const SizedBox(height: 48),
@@ -81,16 +90,153 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(20)
                             )
                           ),
-                        )
+                        ),
+                        const SizedBox(height: 16,),
+                        TextField(
+                          style: const TextStyle(
+                            color: AppColors.whiteColor, 
+                            fontSize: 14, 
+                            letterSpacing: 1
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Senha', 
+                            hintStyle: const TextStyle(
+                              color: AppColors.grayColor, 
+                              fontSize: 14,
+                              letterSpacing: 1
+                            ), 
+                            suffixIcon: const Padding(
+                              padding: EdgeInsets.only(right: 32),
+                              child: Icon(
+                                PhosphorIcons.eye,
+                                color: AppColors.grayColor,
+                              ),
+                            ),
+                            filled: true, 
+                            fillColor: AppColors.inputBackgroundColor, 
+                            contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24), 
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none, 
+                              borderRadius: BorderRadius.circular(20),
+                            )
+                          ),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Esqueceu sua senha?', 
+                                style: TextStyle(
+                                  color: AppColors.grayColor, 
+                                  fontWeight: FontWeight.bold, 
+                                  letterSpacing: 1
+                                ),
+                              )
+                            )
+                          ],
+                        ),
                       ],
-                    ))
+                    )),
+                    const SizedBox(height: 48),
+                    Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)
+                              )
+                            ),
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(24),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              'Entrar', 
+                              style: TextStyle(
+                                color: AppColors.whiteColor,
+                                fontWeight: FontWeight.bold, 
+                                letterSpacing: 1
+                              ),
+                            ),
+                          )
+                        ),
+                        const SizedBox(height: 16,),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              AppColors.whiteColor
+                            ), 
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)
+                              )
+                            ),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                              AppColors.blackColor.withOpacity(0.2)
+                            ),
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                googleLogo,
+                                const SizedBox(width: 16),
+                                const Text(
+                                  'Entrar com o Google', 
+                                  style: TextStyle(
+                                    color: AppColors.blackColor,
+                                    fontWeight: FontWeight.bold, 
+                                    letterSpacing: 1
+                                  ),
+                                ),
+                              ],
+                            )
+                          )
+                        ),
+                        const SizedBox(height: 16,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Não possui uma conta?', 
+                              style: TextStyle(
+                                color: AppColors.whiteColor, 
+                                letterSpacing: 1
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Cadastre-se', 
+                                style: TextStyle(
+                                  color: AppColors.primaryColor, 
+                                  fontWeight: FontWeight.bold, 
+                                  letterSpacing: 1
+                                ),
+                              )
+                            )
+                          ],
+                        )
+                      ]
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        ],
+      )
     );
   }
 }
