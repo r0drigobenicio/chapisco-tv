@@ -124,12 +124,17 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             obscureText: true,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
                                 onPressed: () {},
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                ),
                                 child: const Text(
                                   'Esqueceu sua senha?', 
                                   style: TextStyle(
@@ -210,12 +215,12 @@ class _LoginPageState extends State<LoginPage> {
                                   )
                                 )
                               ),
-                              const SizedBox(height: 16,),
+                              const SizedBox(height: 24,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    'Não possui uma conta?', 
+                                    'Não possui uma conta? ', 
                                     style: TextStyle(
                                       color: AppColors.whiteColor, 
                                       letterSpacing: 1
@@ -223,6 +228,11 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   TextButton(
                                     onPressed: () {},
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                    ),
                                     child: const Text(
                                       'Cadastre-se', 
                                       style: TextStyle(
