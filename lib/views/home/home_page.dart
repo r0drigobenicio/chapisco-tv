@@ -37,11 +37,11 @@ class _HomePageState extends State<HomePage> {
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  pinned: true,
+                  pinned: false,
                   snap: true,
                   floating: true,
                   backgroundColor: AppColors.backgroundColor.withOpacity(0.8),
-                  expandedHeight: 112,
+                  expandedHeight: 115,
                   flexibleSpace: Padding(
                     padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                     child: Column(
@@ -69,11 +69,129 @@ class _HomePageState extends State<HomePage> {
                               )
                             )
                           ],
+                        ),
+                        const SizedBox(height: 32,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {}, 
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                              ),
+                              child: const Text(
+                                'Filmes', 
+                                style: TextStyle(
+                                  color: AppColors.whiteColor, 
+                                  fontWeight: FontWeight.bold, 
+                                  letterSpacing: 1
+                                )
+                              )
+                            ),
+                            const SizedBox(height: 16,),
+                            TextButton(
+                              onPressed: () {}, 
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                              ),
+                              child: const Text(
+                                'Documentários', 
+                                style: TextStyle(
+                                  color: AppColors.grayColor, 
+                                  fontWeight: FontWeight.bold, 
+                                  letterSpacing: 1
+                                )
+                              )
+                            ),
+                            const SizedBox(height: 16,),
+                            TextButton(
+                              onPressed: () {}, 
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                              ),
+                              child: const Text(
+                                'Making Of', 
+                                style: TextStyle(
+                                  color: AppColors.grayColor, 
+                                  fontWeight: FontWeight.bold, 
+                                  letterSpacing: 1
+                                )
+                              )
+                            ),
+                          ],
                         )
                       ],
                     ),
                   )
                 ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 16,),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          margin: EdgeInsets.zero,
+                          elevation: 5,
+                          child: const Image(
+                            image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
+                            fit: BoxFit.cover
+                          ),
+                        ),
+                        const SizedBox(height: 16,),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          margin: EdgeInsets.zero,
+                          elevation: 5,
+                          child: const Image(
+                            image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
+                            fit: BoxFit.cover
+                          ),
+                        ),
+                        const SizedBox(height: 16,),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          margin: EdgeInsets.zero,
+                          elevation: 5,
+                          child: const Image(
+                            image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
+                            fit: BoxFit.cover
+                          ),
+                        ),
+                        const SizedBox(height: 16,),
+                        Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
+                          margin: EdgeInsets.zero,
+                          elevation: 5,
+                          child: const Image(
+                            image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
+                            fit: BoxFit.cover
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           )
