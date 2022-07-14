@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           Center(
             child: SingleChildScrollView(
               reverse: true,
-              padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
+              padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,7 +86,10 @@ class _LoginPageState extends State<LoginPage> {
                               ), 
                               filled: true, 
                               fillColor: AppColors.inputBackgroundColor, 
-                              contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24), 
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 24, 
+                                horizontal: 32
+                              ), 
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none, 
                                 borderRadius: BorderRadius.circular(20)
@@ -116,7 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               filled: true, 
                               fillColor: AppColors.inputBackgroundColor, 
-                              contentPadding: EdgeInsets.fromLTRB(32, 24, 32, 24), 
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 24, 
+                                horizontal: 32
+                              ),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none, 
                                 borderRadius: BorderRadius.circular(20),
