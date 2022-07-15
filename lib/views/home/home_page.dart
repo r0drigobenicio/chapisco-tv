@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 
@@ -257,7 +258,47 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
-      )
+      ),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(width: 1, color: AppColors.borderColor))
+        ),
+        child: BottomAppBar(
+          color: AppColors.backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () {}, 
+                  icon: const Icon(
+                    PhosphorIcons.house_fill, 
+                    color: AppColors.whiteColor,
+                  ),
+                  tooltip: 'Início',
+                ),
+                IconButton(
+                  onPressed: () {}, 
+                  icon: const Icon(
+                    PhosphorIcons.magnifying_glass, 
+                    color: AppColors.grayColor,
+                  ),
+                  tooltip: 'Pesquisar',
+                ),
+                IconButton(
+                  onPressed: () {}, 
+                  icon: const Icon(
+                    PhosphorIcons.download_simple, 
+                    color: AppColors.grayColor,
+                  ),
+                  tooltip: 'Downloads',
+                ),
+              ]
+            ),
+          )
+        ),
+      ),
     );
   }
 }
