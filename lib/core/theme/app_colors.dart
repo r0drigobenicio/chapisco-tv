@@ -24,4 +24,5 @@ class AppColors {
   static const Color grayColor = Color(0XFF897A93);
   static const Color inputBackgroundColor = Color(0XFF261B2F);
   static const Color borderColor = Color(0XFF1E1126);
+  static const Color modalBackgroundColor = Color(0XFF210534);
 }
