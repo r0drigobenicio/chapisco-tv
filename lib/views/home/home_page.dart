@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         (context) => Container(
           height: MediaQuery.of(context).size.height / 3,
           width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           decoration: const BoxDecoration(
             color: AppColors.modalBackgroundColor,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -35,6 +36,115 @@ class _HomePageState extends State<HomePage> {
                 blurRadius: 10,
                 spreadRadius: 1,
                 offset: Offset(0.0, 0.5)
+              )
+            ],
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Os Chapiscadores Parte I',
+                    style: TextStyle(
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1
+                    )
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _bottomSheetController?.close();
+                      _isShowBottomSheet = !_isShowBottomSheet;
+                    }, 
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      primary: AppColors.inputBackgroundColor.withOpacity(0.9),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      minimumSize: const Size.square(32),
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: const Icon(
+                      PhosphorIcons.x, 
+                      color: AppColors.whiteColor,
+                      // size: 22,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16,),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'O primeiro filme dos Chapiscadores, conta a história de Oliver Cromwell e Carlos I. No filme, são abordados os conflitos governamentais entre esses dois "cabras machos", de uma forma descontraída e bem humorada, no estilo chapiscador de ser, mas sempre com a preocupação de levar informação para o público.',
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 12,
+                        letterSpacing: 1,
+                      ),
+                      strutStyle: StrutStyle(height: 1.2)
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width - 120,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Ano de lançamento: 2019',
+                                style: TextStyle(
+                                  color: AppColors.grayColor,
+                                  fontSize: 10,
+                                  letterSpacing: 1
+                                )
+                              ),
+                              SizedBox(height: 8,),
+                              Text(
+                                'Elenco: José Raylan, Larreurisson Lima, Rodrigo Benício, Rodrigo Cardoso',
+                                style: TextStyle(
+                                  color: AppColors.grayColor,
+                                  fontSize: 10,
+                                  letterSpacing: 1
+                                ),
+                                strutStyle: StrutStyle(height: 1.2)
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16,),
+                        ElevatedButton(
+                          onPressed: () {}, 
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<CircleBorder>(
+                              const CircleBorder()
+                            ),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              AppColors.whiteColor
+                            ), 
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            minimumSize: MaterialStateProperty.all<Size>(
+                              const Size.square(48)
+                            ),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                              AppColors.blackColor.withOpacity(0.2)
+                            ),
+                          ),
+                          child: const Icon(
+                            PhosphorIcons.play_fill,
+                            color: AppColors.blackColor,
+                            // size: 22,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
           ),
