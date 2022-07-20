@@ -19,7 +19,9 @@ class _HomePageState extends State<HomePage> {
   PersistentBottomSheetController? _bottomSheetController;
 
   void _showBottomSheet(bool show) {
-    _isShowBottomSheet = show;
+    setState(() {
+      _isShowBottomSheet = show;
+    });
     
     if (_isShowBottomSheet) {
       _bottomSheetController = _scaffoldStateKey.currentState!.showBottomSheet(
@@ -56,7 +58,9 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     onPressed: () {
                       _bottomSheetController?.close();
-                      _isShowBottomSheet = !_isShowBottomSheet;
+                      setState(() {
+                        _isShowBottomSheet = !_isShowBottomSheet;
+                      });
                     }, 
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
@@ -68,7 +72,6 @@ class _HomePageState extends State<HomePage> {
                     child: const Icon(
                       PhosphorIcons.x, 
                       color: AppColors.whiteColor,
-                      // size: 22,
                     ),
                   )
                 ],
@@ -171,7 +174,9 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () async {
         if (_isShowBottomSheet) {
-          _isShowBottomSheet = !_isShowBottomSheet;
+          setState(() {
+            _isShowBottomSheet = !_isShowBottomSheet;
+          });
         }
         
         return true;
@@ -324,7 +329,10 @@ class _HomePageState extends State<HomePage> {
                               child: Card(
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
+                                  )
                                 ),
                                 margin: EdgeInsets.zero,
                                 elevation: 5,
