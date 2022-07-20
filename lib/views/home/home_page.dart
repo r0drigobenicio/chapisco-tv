@@ -47,14 +47,19 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Os Chapiscadores Parte I',
-                    style: TextStyle(
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1
-                    )
+                  const Flexible(
+                    child: Text(
+                      'Os Chapiscadores Parte I',
+                      style: TextStyle(
+                        color: AppColors.whiteColor,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
+                  const SizedBox(width: 16,),
                   ElevatedButton(
                     onPressed: () {
                       _bottomSheetController?.close();
@@ -81,14 +86,20 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'O primeiro filme dos Chapiscadores, conta a história de Oliver Cromwell e Carlos I. No filme, são abordados os conflitos governamentais entre esses dois "cabras machos", de uma forma descontraída e bem humorada, no estilo chapiscador de ser, mas sempre com a preocupação de levar informação para o público.',
-                      style: TextStyle(
-                        color: AppColors.whiteColor,
-                        fontSize: 12,
-                        letterSpacing: 1,
+                    Container(
+                      height: MediaQuery.of(context).size.height / 7,
+                      child: const SingleChildScrollView(
+                        child: Text(
+                          'O primeiro filme dos Chapiscadores, conta a história de Oliver Cromwell e Carlos I. No filme, são abordados os conflitos governamentais entre esses dois "cabras machos", de uma forma descontraída e bem humorada, no estilo chapiscador de ser, mas sempre com a preocupação de levar informação para o público.',
+                          style: TextStyle(
+                            color: AppColors.whiteColor,
+                            fontSize: 12,
+                            letterSpacing: 1,
+                          ),
+                          strutStyle: StrutStyle(height: 1.2),
+                          overflow: TextOverflow.fade,
+                        ),
                       ),
-                      strutStyle: StrutStyle(height: 1.2)
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,6 +108,8 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           width: MediaQuery.of(context).size.width - 120,
                           child: Column(
+
+
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
@@ -115,7 +128,9 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: 10,
                                   letterSpacing: 1
                                 ),
-                                strutStyle: StrutStyle(height: 1.2)
+                                strutStyle: StrutStyle(height: 1.2),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis
                               ),
                             ],
                           ),
