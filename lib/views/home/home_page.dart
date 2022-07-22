@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     }, 
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
-                      primary: AppColors.inputBackgroundColor.withOpacity(0.9),
+                      primary: AppColors.modalCloseButtonColor,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       minimumSize: const Size.square(32),
                       padding: EdgeInsets.zero,
@@ -86,9 +86,8 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height / 7,
-                      child: const SingleChildScrollView(
+                    const Flexible(
+                      child: SingleChildScrollView(
                         child: Text(
                           'O primeiro filme dos Chapiscadores, conta a história de Oliver Cromwell e Carlos I. No filme, são abordados os conflitos governamentais entre esses dois "cabras machos", de uma forma descontraída e bem humorada, no estilo chapiscador de ser, mas sempre com a preocupação de levar informação para o público.',
                           style: TextStyle(
@@ -97,10 +96,10 @@ class _HomePageState extends State<HomePage> {
                             letterSpacing: 1,
                           ),
                           strutStyle: StrutStyle(height: 1.2),
-                          overflow: TextOverflow.fade,
                         ),
                       ),
                     ),
+                    const SizedBox(height: 16,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,8 +107,6 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           width: MediaQuery.of(context).size.width - 120,
                           child: Column(
-
-
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
@@ -120,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                                   letterSpacing: 1
                                 )
                               ),
-                              SizedBox(height: 8,),
+                              SizedBox(height: 4,),
                               Text(
                                 'Elenco: José Raylan, Larreurisson Lima, Rodrigo Benício, Rodrigo Cardoso',
                                 style: TextStyle(
@@ -269,61 +266,64 @@ class _HomePageState extends State<HomePage> {
                           ),
                           width: double.infinity,
                           color: AppColors.backgroundColor.withOpacity(0.9),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              TextButton(
-                                onPressed: () {}, 
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                ),
-                                child: const Text(
-                                  'Filmes', 
-                                  style: TextStyle(
-                                    color: AppColors.whiteColor, 
-                                    fontWeight: FontWeight.bold, 
-                                    letterSpacing: 1
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {}, 
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                  ),
+                                  child: const Text(
+                                    'Filmes', 
+                                    style: TextStyle(
+                                      color: AppColors.whiteColor, 
+                                      fontWeight: FontWeight.bold, 
+                                      letterSpacing: 1
+                                    )
                                   )
-                                )
-                              ),
-                              const SizedBox(height: 16,),
-                              TextButton(
-                                onPressed: () {}, 
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
                                 ),
-                                child: const Text(
-                                  'Documentários', 
-                                  style: TextStyle(
-                                    color: AppColors.grayColor, 
-                                    fontWeight: FontWeight.bold, 
-                                    letterSpacing: 1
+                                const SizedBox(width: 16,),
+                                TextButton(
+                                  onPressed: () {}, 
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                  ),
+                                  child: const Text(
+                                    'Documentários', 
+                                    style: TextStyle(
+                                      color: AppColors.grayColor, 
+                                      fontWeight: FontWeight.bold, 
+                                      letterSpacing: 1
+                                    )
                                   )
-                                )
-                              ),
-                              const SizedBox(height: 16,),
-                              TextButton(
-                                onPressed: () {}, 
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
                                 ),
-                                child: const Text(
-                                  'Making Of', 
-                                  style: TextStyle(
-                                    color: AppColors.grayColor, 
-                                    fontWeight: FontWeight.bold, 
-                                    letterSpacing: 1
+                                const SizedBox(width: 16,),
+                                TextButton(
+                                  onPressed: () {}, 
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                  ),
+                                  child: const Text(
+                                    'Making Of', 
+                                    style: TextStyle(
+                                      color: AppColors.grayColor, 
+                                      fontWeight: FontWeight.bold, 
+                                      letterSpacing: 1
+                                    )
                                   )
-                                )
-                              ),
-                            ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       )
