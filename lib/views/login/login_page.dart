@@ -58,14 +58,16 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.bold, 
                         fontSize: 20,
                         letterSpacing: 1
-                      )
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
                     const Text(
                       'Por favor, faça login para continuar', style: TextStyle(
                         color: AppColors.grayColor,
                         letterSpacing: 1
-                      )
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 48),
                     Form(
@@ -209,12 +211,14 @@ class _LoginPageState extends State<LoginPage> {
                                     children: [
                                       googleLogo,
                                       const SizedBox(width: 16),
-                                      const Text(
-                                        'Entrar com o Google', 
-                                        style: TextStyle(
-                                          color: AppColors.blackColor,
-                                          fontWeight: FontWeight.bold, 
-                                          letterSpacing: 1
+                                      const Flexible(
+                                        child: Text(
+                                          'Entrar com o Google', 
+                                          style: TextStyle(
+                                            color: AppColors.blackColor,
+                                            fontWeight: FontWeight.bold, 
+                                            letterSpacing: 1
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -230,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                                     style: TextStyle(
                                       color: AppColors.whiteColor, 
                                       letterSpacing: 1
-                                    ),
+                                    )
                                   ),
                                   TextButton(
                                     onPressed: () {},
