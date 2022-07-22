@@ -25,4 +25,5 @@ class AppColors {
   static const Color inputBackgroundColor = Color(0XFF261B2F);
   static const Color borderColor = Color(0XFF1E1126);
   static const Color modalBackgroundColor = Color(0XFF210534);
+  static const Color modalCloseButtonColor = Color(0XFF402159);
 }
