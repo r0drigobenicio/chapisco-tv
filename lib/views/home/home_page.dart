@@ -336,103 +336,71 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Column(
                           children: [
-                            InkWell(
-                              splashColor: AppColors.blackColor,
-                              onTap: () {
-                                _showBottomSheet(!_isShowBottomSheet);
-                              },
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
-                                  )
-                                ),
-                                margin: EdgeInsets.zero,
-                                elevation: 5,
-                                child: const Image(
+                            Material(
+                              color: Colors.transparent,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(
+                                  color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
+                                )
+                              ),
+                              elevation: 5,
+                              child: AspectRatio(
+                                aspectRatio: 16/9,
+                                child: Ink.image(
                                   image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                  fit: BoxFit.cover
+                                  fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _showBottomSheet(!_isShowBottomSheet);
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 16,),
-                            Card(
+                            Material(
+                              color: Colors.transparent,
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(
+                                  color: Colors.transparent
+                                )
                               ),
-                              margin: EdgeInsets.zero,
                               elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
+                              child: AspectRatio(
+                                aspectRatio: 16/9,
+                                child: Ink.image(
+                                  image: AssetImage('assets/images/Capa - Os Chapiscadores Parte II 1280x720.png'),
+                                  fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () {},
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 16,),
-                            Card(
+                            Material(
+                              color: Colors.transparent,
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
+                                borderRadius: BorderRadius.circular(20),
+                                side: BorderSide(
+                                  color: Colors.transparent
+                                )
                               ),
-                              margin: EdgeInsets.zero,
                               elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                              margin: EdgeInsets.zero,
-                              elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                              margin: EdgeInsets.zero,
-                              elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                              margin: EdgeInsets.zero,
-                              elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                              margin: EdgeInsets.zero,
-                              elevation: 5,
-                              child: const Image(
-                                image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                fit: BoxFit.cover
+                              child: AspectRatio(
+                                aspectRatio: 16/9,
+                                child: Ink.image(
+                                  image: AssetImage('assets/images/Capa - Os Chapiscadores Parte III 1280x720.png'),
+                                  fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () {},
+                                  ),
+                                ),
                               ),
                             ),
                           ],
