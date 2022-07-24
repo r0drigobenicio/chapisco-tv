@@ -153,7 +153,6 @@ class _HomePageState extends State<HomePage> {
                           child: const Icon(
                             PhosphorIcons.play_fill,
                             color: AppColors.blackColor,
-                            // size: 22,
                           ),
                         )
                       ],
@@ -260,72 +259,76 @@ class _HomePageState extends State<HomePage> {
                         minHeight: 56,
                         maxHeight: 56,
                         child: Container(
+                          color: AppColors.backgroundColor.withOpacity(0.9),
                           padding: const EdgeInsets.symmetric(
                             vertical: 0, 
                             horizontal: 24
                           ),
-                          width: double.infinity,
-                          color: AppColors.backgroundColor.withOpacity(0.9),
-                          child: SingleChildScrollView(
+                          child: CustomScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: () {}, 
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                  ),
-                                  child: const Text(
-                                    'Filmes', 
-                                    style: TextStyle(
-                                      color: AppColors.whiteColor, 
-                                      fontWeight: FontWeight.bold, 
-                                      letterSpacing: 1
-                                    )
-                                  )
+                            slivers: [ 
+                              SliverFillRemaining(
+                                hasScrollBody: false,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {}, 
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                      ),
+                                      child: const Text(
+                                        'Filmes', 
+                                        style: TextStyle(
+                                          color: AppColors.whiteColor, 
+                                          fontWeight: FontWeight.bold, 
+                                          letterSpacing: 1
+                                        )
+                                      )
+                                    ),
+                                    const SizedBox(width: 16,),
+                                    TextButton(
+                                      onPressed: () {}, 
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                      ),
+                                      child: const Text(
+                                        'Documentários', 
+                                        style: TextStyle(
+                                          color: AppColors.grayColor, 
+                                          fontWeight: FontWeight.bold, 
+                                          letterSpacing: 1
+                                        )
+                                      )
+                                    ),
+                                    const SizedBox(width: 16,),
+                                    TextButton(
+                                      onPressed: () {}, 
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                      ),
+                                      child: const Text(
+                                        'Making Of', 
+                                        style: TextStyle(
+                                          color: AppColors.grayColor, 
+                                          fontWeight: FontWeight.bold, 
+                                          letterSpacing: 1
+                                        )
+                                      )
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 16,),
-                                TextButton(
-                                  onPressed: () {}, 
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                  ),
-                                  child: const Text(
-                                    'Documentários', 
-                                    style: TextStyle(
-                                      color: AppColors.grayColor, 
-                                      fontWeight: FontWeight.bold, 
-                                      letterSpacing: 1
-                                    )
-                                  )
-                                ),
-                                const SizedBox(width: 16,),
-                                TextButton(
-                                  onPressed: () {}, 
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                  ),
-                                  child: const Text(
-                                    'Making Of', 
-                                    style: TextStyle(
-                                      color: AppColors.grayColor, 
-                                      fontWeight: FontWeight.bold, 
-                                      letterSpacing: 1
-                                    )
-                                  )
-                                ),
-                              ],
-                            ),
+                              ),
+                            ]
                           ),
-                        ),
+                        )
                       )
                     ),
                     SliverToBoxAdapter(
