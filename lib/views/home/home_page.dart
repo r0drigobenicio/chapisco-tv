@@ -62,10 +62,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(width: 16,),
                   ElevatedButton(
                     onPressed: () {
-                      _bottomSheetController?.close();
-                      setState(() {
-                        _isShowBottomSheet = !_isShowBottomSheet;
-                      });
+                      _closeBottomSheet(!_isShowBottomSheet);
                     }, 
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
@@ -167,7 +164,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent
       );
     } else {
-      if (_bottomSheetController != null) _bottomSheetController?.close();
+      _closeBottomSheet(show);
+    }
+  }
+
+  void _closeBottomSheet(bool close) {
+    setState(() {
+      _isShowBottomSheet = close;
+    });
+
+    if (!_isShowBottomSheet) {
+      if (_bottomSheetController != null) {
+        _bottomSheetController?.close();
+      }
+      
       _bottomSheetController = null;
     }
   }
@@ -185,277 +195,282 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () async {
         if (_isShowBottomSheet) {
-          setState(() {
-            _isShowBottomSheet = !_isShowBottomSheet;
-          });
+          _closeBottomSheet(!_isShowBottomSheet);
         }
         
-        return true;
+        return false;
       },
       child: Scaffold(
-      key: _scaffoldStateKey,
-        body: Scaffold(
-          backgroundColor: AppColors.blackColor,
-          body: Stack(
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/Gradient Background - Mobile.png'),
-                    fit: BoxFit.cover
-                  )
+        key: _scaffoldStateKey,
+        body: GestureDetector(
+          onTap: () {
+            if (_isShowBottomSheet) {
+              _closeBottomSheet(!_isShowBottomSheet);
+            }
+          },
+          child: Scaffold(
+            backgroundColor: AppColors.blackColor,
+            body: Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/Gradient Background - Mobile.png'),
+                      fit: BoxFit.cover
+                    )
+                  ),
                 ),
-              ),
-              SafeArea(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      pinned: false,
-                      snap: true,
-                      floating: true,
-                      backgroundColor: AppColors.backgroundColor.withOpacity(0.9),
-                      elevation: 0,
-                      expandedHeight: 64,
-                      collapsedHeight: 64,
-                      automaticallyImplyLeading: false,
-                      flexibleSpace: FlexibleSpaceBar(
-                        titlePadding: EdgeInsets.zero,
-                        expandedTitleScale: 1,
-                        title: Padding(
+                SafeArea(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        pinned: false,
+                        snap: true,
+                        floating: true,
+                        backgroundColor: AppColors.backgroundColor.withOpacity(0.9),
+                        elevation: 0,
+                        expandedHeight: 64,
+                        collapsedHeight: 64,
+                        automaticallyImplyLeading: false,
+                        flexibleSpace: FlexibleSpaceBar(
+                          titlePadding: EdgeInsets.zero,
+                          expandedTitleScale: 1,
+                          title: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16, 
+                              horizontal: 24
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                chapiscoTVLogo,
+                                Material(
+                                  color: Colors.transparent,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100),
+                                    side: const BorderSide(
+                                      color: AppColors.whiteColor
+                                    )
+                                  ),
+                                  elevation: 5,
+                                  child: Ink.image(
+                                    image: const AssetImage('assets/images/jj.jpeg'),
+                                    height: 32,
+                                    width: 32,
+                                    fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _SliverAppBarDelegate(
+                          minHeight: 56,
+                          maxHeight: 56,
+                          child: Container(
+                            color: AppColors.backgroundColor.withOpacity(0.9),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 0, 
+                              horizontal: 24
+                            ),
+                            child: CustomScrollView(
+                              scrollDirection: Axis.horizontal,
+                              slivers: [ 
+                                SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                        onPressed: () {}, 
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: Size.zero,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                        ),
+                                        child: const Text(
+                                          'Filmes', 
+                                          style: TextStyle(
+                                            color: AppColors.whiteColor, 
+                                            fontWeight: FontWeight.bold, 
+                                            letterSpacing: 1
+                                          )
+                                        )
+                                      ),
+                                      const SizedBox(width: 16,),
+                                      TextButton(
+                                        onPressed: () {}, 
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: Size.zero,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                        ),
+                                        child: const Text(
+                                          'Documentários', 
+                                          style: TextStyle(
+                                            color: AppColors.grayColor, 
+                                            fontWeight: FontWeight.bold, 
+                                            letterSpacing: 1
+                                          )
+                                        )
+                                      ),
+                                      const SizedBox(width: 16,),
+                                      TextButton(
+                                        onPressed: () {}, 
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: Size.zero,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                                        ),
+                                        child: const Text(
+                                          'Making Of', 
+                                          style: TextStyle(
+                                            color: AppColors.grayColor, 
+                                            fontWeight: FontWeight.bold, 
+                                            letterSpacing: 1
+                                          )
+                                        )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]
+                            ),
+                          )
+                        )
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 16, 
                             horizontal: 24
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Column(
                             children: [
-                              chapiscoTVLogo,
                               Material(
                                 color: Colors.transparent,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100),
-                                  side: const BorderSide(
-                                    color: AppColors.whiteColor
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
                                   )
                                 ),
                                 elevation: 5,
-                                child: Ink.image(
-                                  image: const AssetImage('assets/images/jj.jpeg'),
-                                  height: 32,
-                                  width: 32,
-                                  fit: BoxFit.cover,
-                                  child: InkWell(
-                                    onTap: () {},
+                                child: AspectRatio(
+                                  aspectRatio: 16/9,
+                                  child: Ink.image(
+                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
+                                    fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {
+                                        _showBottomSheet(!_isShowBottomSheet);
+                                      },
+                                    ),
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(height: 16,),
+                              Material(
+                                color: Colors.transparent,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: Colors.transparent
+                                  )
+                                ),
+                                elevation: 5,
+                                child: AspectRatio(
+                                  aspectRatio: 16/9,
+                                  child: Ink.image(
+                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte II 1280x720.png'),
+                                    fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 16,),
+                              Material(
+                                color: Colors.transparent,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: BorderSide(
+                                    color: Colors.transparent
+                                  )
+                                ),
+                                elevation: 5,
+                                child: AspectRatio(
+                                  aspectRatio: 16/9,
+                                  child: Ink.image(
+                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte III 1280x720.png'),
+                                    fit: BoxFit.cover,
+                                    child: InkWell(
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       )
-                    ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        minHeight: 56,
-                        maxHeight: 56,
-                        child: Container(
-                          color: AppColors.backgroundColor.withOpacity(0.9),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 0, 
-                            horizontal: 24
-                          ),
-                          child: CustomScrollView(
-                            scrollDirection: Axis.horizontal,
-                            slivers: [ 
-                              SliverFillRemaining(
-                                hasScrollBody: false,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {}, 
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                      ),
-                                      child: const Text(
-                                        'Filmes', 
-                                        style: TextStyle(
-                                          color: AppColors.whiteColor, 
-                                          fontWeight: FontWeight.bold, 
-                                          letterSpacing: 1
-                                        )
-                                      )
-                                    ),
-                                    const SizedBox(width: 16,),
-                                    TextButton(
-                                      onPressed: () {}, 
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                      ),
-                                      child: const Text(
-                                        'Documentários', 
-                                        style: TextStyle(
-                                          color: AppColors.grayColor, 
-                                          fontWeight: FontWeight.bold, 
-                                          letterSpacing: 1
-                                        )
-                                      )
-                                    ),
-                                    const SizedBox(width: 16,),
-                                    TextButton(
-                                      onPressed: () {}, 
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: Size.zero,
-                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                      ),
-                                      child: const Text(
-                                        'Making Of', 
-                                        style: TextStyle(
-                                          color: AppColors.grayColor, 
-                                          fontWeight: FontWeight.bold, 
-                                          letterSpacing: 1
-                                        )
-                                      )
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ]
-                          ),
-                        )
-                      )
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16, 
-                          horizontal: 24
-                        ),
-                        child: Column(
-                          children: [
-                            Material(
-                              color: Colors.transparent,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(
-                                  color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
-                                )
-                              ),
-                              elevation: 5,
-                              child: AspectRatio(
-                                aspectRatio: 16/9,
-                                child: Ink.image(
-                                  image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                  fit: BoxFit.cover,
-                                  child: InkWell(
-                                    onTap: () {
-                                      _showBottomSheet(!_isShowBottomSheet);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Material(
-                              color: Colors.transparent,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(
-                                  color: Colors.transparent
-                                )
-                              ),
-                              elevation: 5,
-                              child: AspectRatio(
-                                aspectRatio: 16/9,
-                                child: Ink.image(
-                                  image: AssetImage('assets/images/Capa - Os Chapiscadores Parte II 1280x720.png'),
-                                  fit: BoxFit.cover,
-                                  child: InkWell(
-                                    onTap: () {},
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16,),
-                            Material(
-                              color: Colors.transparent,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                side: BorderSide(
-                                  color: Colors.transparent
-                                )
-                              ),
-                              elevation: 5,
-                              child: AspectRatio(
-                                aspectRatio: 16/9,
-                                child: Ink.image(
-                                  image: AssetImage('assets/images/Capa - Os Chapiscadores Parte III 1280x720.png'),
-                                  fit: BoxFit.cover,
-                                  child: InkWell(
-                                    onTap: () {},
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-          bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              border: Border(top: BorderSide(width: 1, color: AppColors.borderColor))
+                    ],
+                  ),
+                )
+              ],
             ),
-            child: BottomAppBar(
-              color: AppColors.backgroundColor,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      onPressed: () {}, 
-                      icon: const Icon(
-                        PhosphorIcons.house_fill, 
-                        color: AppColors.whiteColor,
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                border: Border(top: BorderSide(width: 1, color: AppColors.borderColor))
+              ),
+              child: BottomAppBar(
+                color: AppColors.backgroundColor,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      IconButton(
+                        onPressed: () {}, 
+                        icon: const Icon(
+                          PhosphorIcons.house_fill, 
+                          color: AppColors.whiteColor,
+                        ),
+                        tooltip: 'Início',
                       ),
-                      tooltip: 'Início',
-                    ),
-                    IconButton(
-                      onPressed: () {}, 
-                      icon: const Icon(
-                        PhosphorIcons.magnifying_glass, 
-                        color: AppColors.grayColor,
+                      IconButton(
+                        onPressed: () {}, 
+                        icon: const Icon(
+                          PhosphorIcons.magnifying_glass, 
+                          color: AppColors.grayColor,
+                        ),
+                        tooltip: 'Pesquisar',
                       ),
-                      tooltip: 'Pesquisar',
-                    ),
-                    IconButton(
-                      onPressed: () {}, 
-                      icon: const Icon(
-                        PhosphorIcons.download_simple, 
-                        color: AppColors.grayColor,
+                      IconButton(
+                        onPressed: () {}, 
+                        icon: const Icon(
+                          PhosphorIcons.download_simple, 
+                          color: AppColors.grayColor,
+                        ),
+                        tooltip: 'Downloads',
                       ),
-                      tooltip: 'Downloads',
-                    ),
-                  ]
-                ),
-              )
+                    ]
+                  ),
+                )
+              ),
             ),
           ),
         ),
