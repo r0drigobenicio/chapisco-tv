@@ -231,22 +231,25 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               chapiscoTVLogo,
-                              Container(
-                                height: 32,
-                                width: 32,
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    image: AssetImage('assets/images/jj.jpeg'),
-                                    fit: BoxFit.cover
+                              Material(
+                                color: Colors.transparent,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                  side: const BorderSide(
+                                    color: AppColors.whiteColor
+                                  )
+                                ),
+                                elevation: 5,
+                                child: Ink.image(
+                                  image: const AssetImage('assets/images/jj.jpeg'),
+                                  height: 32,
+                                  width: 32,
+                                  fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () {},
                                   ),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(100)
-                                  ),
-                                  border: Border.all(
-                                    color: AppColors.whiteColor,
-                                    width: 1
-                                  ),
-                                )
+                                ),
                               )
                             ],
                           ),
