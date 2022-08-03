@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:math' as math;
 
 import '../../core/theme/app_colors.dart';
+import 'widgets/item_card_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,17 +16,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String readVideos = """
+    query ReadVideos {
+      videos {
+        id
+        title
+        description
+        image {
+          url
+        }
+        videoId
+        releasedAt
+        cast
+        videoType
+      }
+    }
+  """;
+
+  String _activeElementId = '';
   bool _isShowBottomSheet = false;
   final _scaffoldStateKey = GlobalKey<ScaffoldState>();
 
   PersistentBottomSheetController? _bottomSheetController;
 
-  void _showBottomSheet(bool show) {
+  void _showBottomSheet(dynamic video) {
     setState(() {
-      _isShowBottomSheet = show;
+      _isShowBottomSheet = true;
     });
-    
-    if (_isShowBottomSheet) {
+
+    if (_activeElementId != video['id']) {
       _bottomSheetController = _scaffoldStateKey.currentState!.showBottomSheet(
         (context) => Container(
           height: MediaQuery.of(context).size.height / 3,
@@ -47,10 +68,10 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Flexible(
+                  Flexible(
                     child: Text(
-                      'Os Chapiscadores Parte I',
-                      style: TextStyle(
+                      video['title'],
+                      style: const TextStyle(
                         color: AppColors.whiteColor,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
@@ -62,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(width: 16,),
                   ElevatedButton(
                     onPressed: () {
-                      _closeBottomSheet(!_isShowBottomSheet);
+                      _closeBottomSheet();
                     }, 
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
@@ -83,16 +104,16 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Flexible(
+                    Flexible(
                       child: SingleChildScrollView(
                         child: Text(
-                          'O primeiro filme dos Chapiscadores, conta a história de Oliver Cromwell e Carlos I. No filme, são abordados os conflitos governamentais entre esses dois "cabras machos", de uma forma descontraída e bem humorada, no estilo chapiscador de ser, mas sempre com a preocupação de levar informação para o público.',
-                          style: TextStyle(
+                          video['description'],
+                          style: const TextStyle(
                             color: AppColors.whiteColor,
                             fontSize: 12,
                             letterSpacing: 1,
                           ),
-                          strutStyle: StrutStyle(height: 1.2),
+                          strutStyle: const StrutStyle(height: 1.2),
                         ),
                       ),
                     ),
@@ -105,26 +126,48 @@ class _HomePageState extends State<HomePage> {
                           width: MediaQuery.of(context).size.width - 120,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Ano de lançamento: 2019',
-                                style: TextStyle(
-                                  color: AppColors.grayColor,
-                                  fontSize: 10,
-                                  letterSpacing: 1
-                                )
-                              ),
-                              SizedBox(height: 4,),
-                              Text(
-                                'Elenco: José Raylan, Larreurisson Lima, Rodrigo Benício, Rodrigo Cardoso',
-                                style: TextStyle(
-                                  color: AppColors.grayColor,
-                                  fontSize: 10,
-                                  letterSpacing: 1
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Ano de lançamento: ',
+                                  style: const TextStyle(
+                                    color: AppColors.grayColor,
+                                    fontSize: 10,
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '${video['releasedAt']}'.substring(0, 4),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.normal
+                                      )
+                                    )
+                                  ]
                                 ),
-                                strutStyle: StrutStyle(height: 1.2),
+                              ),
+                              const SizedBox(height: 4,),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Elenco: ',
+                                  style: const TextStyle(
+                                    color: AppColors.grayColor,
+                                    fontSize: 10,
+                                    letterSpacing: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '${video['cast']}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.normal
+                                      )
+                                    )
+                                  ]
+                                ),
+                                strutStyle: const StrutStyle(height: 1.2),
                                 maxLines: 2,
-                                overflow: TextOverflow.ellipsis
                               ),
                             ],
                           ),
@@ -164,22 +207,21 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent
       );
     } else {
-      _closeBottomSheet(show);
+      return;
     }
   }
 
-  void _closeBottomSheet(bool close) {
+  void _closeBottomSheet() {
     setState(() {
-      _isShowBottomSheet = close;
+      _activeElementId = '';
+      _isShowBottomSheet = false;
     });
 
-    if (!_isShowBottomSheet) {
-      if (_bottomSheetController != null) {
-        _bottomSheetController?.close();
-      }
-      
-      _bottomSheetController = null;
+    if (_bottomSheetController != null) {
+      _bottomSheetController?.close();
     }
+    
+    _bottomSheetController = null;
   }
 
   @override
@@ -195,7 +237,7 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () async {
         if (_isShowBottomSheet) {
-          _closeBottomSheet(!_isShowBottomSheet);
+          _closeBottomSheet();
         }
         
         return false;
@@ -205,7 +247,7 @@ class _HomePageState extends State<HomePage> {
         body: GestureDetector(
           onTap: () {
             if (_isShowBottomSheet) {
-              _closeBottomSheet(!_isShowBottomSheet);
+              _closeBottomSheet();
             }
           },
           child: Scaffold(
@@ -354,76 +396,54 @@ class _HomePageState extends State<HomePage> {
                             vertical: 16, 
                             horizontal: 24
                           ),
-                          child: Column(
-                            children: [
-                              Material(
-                                color: Colors.transparent,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: _isShowBottomSheet ? AppColors.whiteColor : Colors.transparent
-                                  )
-                                ),
-                                elevation: 5,
-                                child: AspectRatio(
-                                  aspectRatio: 16/9,
-                                  child: Ink.image(
-                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte I 1280x720.png'),
-                                    fit: BoxFit.cover,
-                                    child: InkWell(
-                                      onTap: () {
-                                        _showBottomSheet(!_isShowBottomSheet);
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16,),
-                              Material(
-                                color: Colors.transparent,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: Colors.transparent
-                                  )
-                                ),
-                                elevation: 5,
-                                child: AspectRatio(
-                                  aspectRatio: 16/9,
-                                  child: Ink.image(
-                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte II 1280x720.png'),
-                                    fit: BoxFit.cover,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16,),
-                              Material(
-                                color: Colors.transparent,
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: BorderSide(
-                                    color: Colors.transparent
-                                  )
-                                ),
-                                elevation: 5,
-                                child: AspectRatio(
-                                  aspectRatio: 16/9,
-                                  child: Ink.image(
-                                    image: AssetImage('assets/images/Capa - Os Chapiscadores Parte III 1280x720.png'),
-                                    fit: BoxFit.cover,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: Query(
+                            options: QueryOptions(
+                              document: gql(readVideos),
+                              fetchPolicy: FetchPolicy.cacheAndNetwork,
+                              pollInterval: const Duration(seconds: 10),
+                            ),
+                            builder: (QueryResult result,
+                            { VoidCallback? refetch, FetchMore? fetchMore }) {
+                              if (result.hasException) {
+                                return Text(result.exception.toString());
+                              }
+
+                              if (result.isLoading) {
+                                return const Text('Carregando');
+                              }
+
+                              List? videos = result.data?['videos'];
+
+                              if (videos == null) {
+                                return const Text('Não há vídeos');
+                              }
+
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: videos.length,
+                                itemBuilder: (context, index) {
+                                  final video = videos[index];
+
+                                  return Column(
+                                    children: [
+                                      ItemCardWidget(
+                                        id: video['id'] ?? '',
+                                        image: video['image']?['url'] ?? '',
+                                        onTap: () {
+                                          _showBottomSheet(video);
+                                          setState(() {
+                                            _activeElementId = video['id'] ?? '';
+                                          });
+                                        },
+                                        activeElementId: _activeElementId,
+                                      ),
+                                      const SizedBox(height: 16,)
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ),
                       )
