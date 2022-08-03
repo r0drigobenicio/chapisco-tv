@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'core/theme/app_theme.dart';
 import 'views/login/login_page.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
+  await initHiveForFlutter();
+
   WidgetsFlutterBinding.ensureInitialized();
   
   SystemChrome.setPreferredOrientations([
@@ -20,11 +25,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chapisco TV',
-      theme: AppTheme.theme,
-      home: const LoginPage(),
-      debugShowCheckedModeBanner: false,
+    final HttpLink httpLink = HttpLink(
+      '${dotenv.env['API_URL']}'
+    );
+
+    final AuthLink authLink = AuthLink(
+      getToken: () async => 'Bearer ${dotenv.env['API_ACCESS_TOKEN']}'
+    );
+
+    final Link link = authLink.concat(httpLink);
+
+    ValueNotifier<GraphQLClient> client = ValueNotifier(
+      GraphQLClient(
+        link: link,
+        cache: GraphQLCache(store: HiveStore()),
+      ),
+    );
+
+    return GraphQLProvider(
+      client: client,
+      child: MaterialApp(
+        title: 'Chapisco TV',
+        theme: AppTheme.theme,
+        home: const LoginPage(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
