@@ -8,13 +8,13 @@ class ItemCardWidget extends StatelessWidget {
     required this.id, 
     required this.image, 
     required this.onTap,
-    required this.activeElementId,
+    required this.activeItemId,
   }) : super(key: key);
 
   final String id;
   final String image;
-  final Function() onTap;
-  final String activeElementId;
+  final void Function() onTap;
+  final String activeItemId;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ItemCardWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: BorderSide(
-          color: activeElementId == id ? AppColors.whiteColor : Colors.transparent
+          color: activeItemId == id ? AppColors.whiteColor : Colors.transparent
         )
       ),
       elevation: 5,

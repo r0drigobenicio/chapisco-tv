@@ -1,11 +1,17 @@
+import 'dart:developer';
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'dart:math' as math;
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../graphql/queries/read_categories_query.dart';
+import '../../graphql/queries/read_videos_query.dart';
+import 'widgets/category_button_widget.dart';
 import 'widgets/item_card_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,26 +22,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String readVideos = """
-    query ReadVideos {
-      videos {
-        id
-        title
-        description
-        image {
-          url
-        }
-        videoId
-        releasedAt
-        cast
-        videoType
-      }
-    }
-  """;
-
-  String _activeElementId = '';
-  bool _isShowBottomSheet = false;
   final _scaffoldStateKey = GlobalKey<ScaffoldState>();
+  final ItemScrollController categoryItemScrollController = ItemScrollController();
+  final ItemPositionsListener categoryItemPositionsListener = ItemPositionsListener.create();
+
+
+  String _activeCategoryId = '';
+  String _activeItemId = '';
+  bool _isShowBottomSheet = false;
 
   PersistentBottomSheetController? _bottomSheetController;
 
@@ -44,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       _isShowBottomSheet = true;
     });
 
-    if (_activeElementId != video['id']) {
+    if (_activeItemId != video['id']) {
       _bottomSheetController = _scaffoldStateKey.currentState!.showBottomSheet(
         (context) => Container(
           height: MediaQuery.of(context).size.height / 3,
@@ -213,7 +207,7 @@ class _HomePageState extends State<HomePage> {
 
   void _closeBottomSheet() {
     setState(() {
-      _activeElementId = '';
+      _activeItemId = '';
       _isShowBottomSheet = false;
     });
 
@@ -323,69 +317,65 @@ class _HomePageState extends State<HomePage> {
                               vertical: 0, 
                               horizontal: 24
                             ),
-                            child: CustomScrollView(
-                              scrollDirection: Axis.horizontal,
-                              slivers: [ 
-                                SliverFillRemaining(
-                                  hasScrollBody: false,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {}, 
-                                        style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          minimumSize: Size.zero,
-                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                        ),
-                                        child: const Text(
-                                          'Filmes', 
-                                          style: TextStyle(
-                                            color: AppColors.whiteColor, 
-                                            fontWeight: FontWeight.bold, 
-                                            letterSpacing: 1
-                                          )
-                                        )
-                                      ),
-                                      const SizedBox(width: 16,),
-                                      TextButton(
-                                        onPressed: () {}, 
-                                        style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          minimumSize: Size.zero,
-                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                        ),
-                                        child: const Text(
-                                          'Documentários', 
-                                          style: TextStyle(
-                                            color: AppColors.grayColor, 
-                                            fontWeight: FontWeight.bold, 
-                                            letterSpacing: 1
-                                          )
-                                        )
-                                      ),
-                                      const SizedBox(width: 16,),
-                                      TextButton(
-                                        onPressed: () {}, 
-                                        style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                          minimumSize: Size.zero,
-                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                                        ),
-                                        child: const Text(
-                                          'Making Of', 
-                                          style: TextStyle(
-                                            color: AppColors.grayColor, 
-                                            fontWeight: FontWeight.bold, 
-                                            letterSpacing: 1
-                                          )
-                                        )
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]
+                            child: Query(
+                              options: QueryOptions(
+                                document: gql(readCategoriesQuery),
+                                fetchPolicy: FetchPolicy.cacheAndNetwork,
+                                pollInterval: const Duration(seconds: 10),
+                              ),
+                              builder: (QueryResult result,
+                              { VoidCallback? refetch, FetchMore? fetchMore }) {
+                                if (result.hasException) {
+                                  return Text(result.exception.toString());
+                                }
+
+                                if (result.isLoading) {
+                                  return const Text('Carregando');
+                                }
+
+                                List? categories = result.data?['categories'];
+
+                                if (categories == null) {
+                                  return const Text('Não há categorias');
+                                }
+
+                                return ScrollablePositionedList.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemScrollController: categoryItemScrollController,
+                                  itemPositionsListener: categoryItemPositionsListener,
+                                  itemCount: categories.length,
+                                  itemBuilder: (context, index) {
+                                    final category = categories[index];
+
+                                    if (_activeCategoryId == '') {
+                                      _activeCategoryId = categories[0]?['id'] ?? '';
+                                    }
+
+                                    return CategoryButtonWidget(
+                                      id: category['id'] ?? '',
+                                      name: category['name'] ?? '', 
+                                      onPressed: () {
+                                        setState(() {
+                                          _activeCategoryId = category['id'] ?? '';
+                                        });
+
+                                        categoryItemScrollController.scrollTo(
+                                          index: index,
+                                          duration: const Duration(milliseconds: 300),
+                                          curve: Curves.easeInOut
+                                        );
+
+                                        if (_isShowBottomSheet) {
+                                          _closeBottomSheet();
+                                        } 
+                                      }, 
+                                      activeCategoryId: _activeCategoryId
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) => 
+                                    const SizedBox(width: 16,),
+                                );
+                              }
                             ),
                           )
                         )
@@ -398,7 +388,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Query(
                             options: QueryOptions(
-                              document: gql(readVideos),
+                              document: gql(readVideosQuery),
                               fetchPolicy: FetchPolicy.cacheAndNetwork,
                               pollInterval: const Duration(seconds: 10),
                             ),
@@ -420,30 +410,35 @@ class _HomePageState extends State<HomePage> {
 
                               return ListView.builder(
                                 shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
+                                physics: BouncingScrollPhysics(),
                                 itemCount: videos.length,
                                 itemBuilder: (context, index) {
-                                  final video = videos[index];
+                                  if (_activeCategoryId == videos[index]?['category']?['id']) {
+                                    final video = videos[index];
 
-                                  return Column(
-                                    children: [
-                                      ItemCardWidget(
-                                        id: video['id'] ?? '',
-                                        image: video['image']?['url'] ?? '',
-                                        onTap: () {
-                                          _showBottomSheet(video);
-                                          setState(() {
-                                            _activeElementId = video['id'] ?? '';
-                                          });
-                                        },
-                                        activeElementId: _activeElementId,
-                                      ),
-                                      const SizedBox(height: 16,)
-                                    ],
-                                  );
-                                },
+                                    return Column(
+                                      children: [
+                                        ItemCardWidget(
+                                          id: video['id'] ?? '',
+                                          image: video['image']?['url'] ?? '',
+                                          onTap: () {
+                                            _showBottomSheet(video);
+
+                                            setState(() {
+                                              _activeItemId = video['id'] ?? '';
+                                            });
+                                          },
+                                          activeItemId: _activeItemId,
+                                        ),
+                                        const SizedBox(height: 16,),
+                                      ],
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                }
                               );
-                            },
+                            }
                           ),
                         ),
                       )

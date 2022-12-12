@@ -38,6 +38,7 @@ dependencies:
   flutter_phosphor_icons: ^0.0.1+6
   graphql_flutter: ^5.1.0
   flutter_dotenv: ^5.0.2
+  scrollable_positioned_list: ^0.3.2
 
 dev_dependencies:
   flutter_test:
