@@ -1,11 +1,9 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -410,7 +408,7 @@ class _HomePageState extends State<HomePage> {
 
                               return ListView.builder(
                                 shrinkWrap: true,
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 itemCount: videos.length,
                                 itemBuilder: (context, index) {
                                   if (_activeCategoryId == videos[index]?['category']?['id']) {
