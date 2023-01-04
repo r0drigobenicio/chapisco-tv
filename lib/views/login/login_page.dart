@@ -65,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                     const Text(
                       'Por favor, faça login para continuar', style: TextStyle(
                         color: AppColors.grayColor,
+                        fontWeight: FontWeight.w500,
                         letterSpacing: 1
                       ),
                       textAlign: TextAlign.center,
