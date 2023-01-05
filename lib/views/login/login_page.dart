@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/theme/app_colors.dart';
 import 'package:chapisco_tv/views/home/home_page.dart';
+import 'package:chapisco_tv/views/login/widgets/input_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,6 +14,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _passwordVisibility = true;
+
+  void changePasswordVisibility() {
+    setState(() {
+      _passwordVisibility = !_passwordVisibility;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const String assetChapiscoTVLogo = 'assets/images/ChapiscoTV Logo.svg';
@@ -74,65 +83,23 @@ class _LoginPageState extends State<LoginPage> {
                     Form(
                       child: Column(
                         children: [
-                          TextFormField(
-                            style: const TextStyle(
-                              color: AppColors.whiteColor, 
-                              fontSize: 14, 
-                              letterSpacing: 1
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Email', 
-                              hintStyle: const TextStyle(
-                                color: AppColors.grayColor, 
-                                fontSize: 14,
-                                letterSpacing: 1
-                              ), 
-                              filled: true, 
-                              fillColor: AppColors.inputBackgroundColor, 
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 24, 
-                                horizontal: 32
-                              ), 
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none, 
-                                borderRadius: BorderRadius.circular(20)
-                              )
-                            ),
-                          ),
+                          InputWidget(hintText: 'Email', borderRadius: 20),
                           const SizedBox(height: 16,),
-                          TextFormField(
-                            style: const TextStyle(
-                              color: AppColors.whiteColor, 
-                              fontSize: 14, 
-                              letterSpacing: 1
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Senha', 
-                              hintStyle: const TextStyle(
-                                color: AppColors.grayColor, 
-                                fontSize: 14,
-                                letterSpacing: 1
-                              ), 
-                              suffixIcon: const Padding(
-                                padding: EdgeInsets.only(right: 32),
-                                child: Icon(
-                                  PhosphorIcons.eye,
-                                  color: AppColors.grayColor,
+                          InputWidget(
+                            hintText: 'Senha', 
+                            obscureText: _passwordVisibility,
+                            suffixIcon: Padding(
+                                padding: const EdgeInsets.only(right: 24),
+                                child: IconButton(
+                                  icon: Icon(
+                                    !_passwordVisibility ? PhosphorIcons.eye_slash : PhosphorIcons.eye, 
+                                    color: AppColors.grayColor,
+                                  ),
+                                  onPressed: () => changePasswordVisibility(),
                                 ),
                               ),
-                              filled: true, 
-                              fillColor: AppColors.inputBackgroundColor, 
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 24, 
-                                horizontal: 32
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none, 
-                                borderRadius: BorderRadius.circular(20),
-                              )
+                              borderRadius: 20
                             ),
-                            obscureText: true,
-                          ),
                           const SizedBox(height: 24),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
