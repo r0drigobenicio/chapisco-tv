@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import 'package:chapisco_tv/views/home/home_page.dart';
 import 'package:chapisco_tv/views/login/widgets/input_widget.dart';
+import 'package:chapisco_tv/controllers/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LoginController _loginController = LoginController();
+
   bool _passwordVisibility = true;
 
   void changePasswordVisibility() {
@@ -83,7 +86,11 @@ class _LoginPageState extends State<LoginPage> {
                     Form(
                       child: Column(
                         children: [
-                          InputWidget(hintText: 'Email', borderRadius: 20),
+                          InputWidget(
+                            hintText: 'Email', 
+                            borderRadius: 20,
+                            onChanged: _loginController.setEmail,
+                          ),
                           const SizedBox(height: 16,),
                           InputWidget(
                             hintText: 'Senha', 
@@ -98,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () => changePasswordVisibility(),
                                 ),
                               ),
-                              borderRadius: 20
+                              borderRadius: 20,
+                              onChanged: _loginController.setPassword,
                             ),
                           const SizedBox(height: 24),
                           Row(
