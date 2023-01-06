@@ -10,7 +10,8 @@ class InputWidget extends StatelessWidget {
     this.suffixIcon,
     this.fillColor, 
     this.obscureText = false, 
-    this.borderRadius = 0,
+    this.borderRadius = 0, 
+    this.onChanged,
   }) : super(key: key);
 
   final String hintText;
@@ -19,6 +20,7 @@ class InputWidget extends StatelessWidget {
   final Color? fillColor;
   final bool obscureText;
   final double borderRadius;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class InputWidget extends StatelessWidget {
           ),
         ),
         obscureText: obscureText,
+        onChanged: onChanged,
       )
     );
   }
