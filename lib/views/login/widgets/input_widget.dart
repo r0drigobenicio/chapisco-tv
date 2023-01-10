@@ -11,7 +11,9 @@ class InputWidget extends StatelessWidget {
     this.fillColor, 
     this.obscureText = false, 
     this.borderRadius = 0, 
-    this.onChanged,
+    this.onChanged, 
+    this.keyboardType,
+    this.validator,
   }) : super(key: key);
 
   final String hintText;
@@ -21,6 +23,8 @@ class InputWidget extends StatelessWidget {
   final bool obscureText;
   final double borderRadius;
   final void Function(String)? onChanged;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +41,11 @@ class InputWidget extends StatelessWidget {
             color: AppColors.grayColor, 
             fontSize: 14,
             letterSpacing: 1
-          ), 
+          ),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           filled: true, 
-          fillColor: fillColor ?? AppColors.inputBackgroundColor, 
+          fillColor: fillColor ?? AppColors.inputBackgroundColor,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 24, 
             horizontal: 24
@@ -50,9 +54,21 @@ class InputWidget extends StatelessWidget {
             borderSide: BorderSide.none, 
             borderRadius: BorderRadius.circular(borderRadius),
           ),
+          errorBorder: UnderlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: const BorderSide(color: AppColors.redColor, width: 2)
+          ),
+          focusedErrorBorder: UnderlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: const BorderSide(color: AppColors.redColor, width: 2)
+          ),
+          errorMaxLines: 2,
+          errorStyle: const TextStyle(fontSize: 10, letterSpacing: 0.5)
         ),
         obscureText: obscureText,
+        keyboardType: keyboardType,
         onChanged: onChanged,
+        validator: validator,
       )
     );
   }
