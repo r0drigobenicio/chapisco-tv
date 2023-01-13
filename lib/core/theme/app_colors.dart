@@ -23,6 +23,7 @@ class AppColors {
   static const Color blackColor = Color(0XFF000000);
   static const Color grayColor = Color(0XFF897A93);
   static const Color redColor = Color(0XFFFF0000);
+  static const Color greenColor = Color(0XFF29BB1C);
   static const Color inputBackgroundColor = Color(0XFF261B2F);
   static const Color borderColor = Color(0XFF1E1126);
   static const Color modalBackgroundColor = Color(0XFF210534);
