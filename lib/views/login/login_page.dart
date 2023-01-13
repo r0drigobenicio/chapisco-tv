@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phosphor_icons/flutter_phosphor_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:page_transition/page_transition.dart';
 
+import '../../controllers/login/login_controller.dart';
 import '../../core/theme/app_colors.dart';
-import 'package:chapisco_tv/views/home/home_page.dart';
-import 'package:chapisco_tv/views/login/widgets/input_widget.dart';
-import 'package:chapisco_tv/controllers/login/login_controller.dart';
-import 'package:chapisco_tv/views/login/widgets/elevated_button_widget.dart';
+import '../home/home_page.dart';
+import '../recovery_password/recovery_password_page.dart';
+import 'widgets/elevated_button_widget.dart';
+import 'widgets/input_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -127,7 +129,18 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    PageTransition(
+                                      child: const RecoveryPasswordPage(), 
+                                      childCurrent: widget, 
+                                      type: PageTransitionType.rightToLeftJoined, 
+                                      duration: const Duration(milliseconds: 600),
+                                      reverseDuration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut
+                                    )
+                                  );
+                                },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,
@@ -151,8 +164,14 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) => const HomePage())
+                                      PageTransition(
+                                        child: const HomePage(), 
+                                        childCurrent: widget, 
+                                        type: PageTransitionType.rightToLeftJoined, 
+                                        duration: const Duration(milliseconds: 600),
+                                        reverseDuration: const Duration(milliseconds: 300),
+                                        curve: Curves.easeInOut
+                                      )
                                     );
                                   }
                                 },
