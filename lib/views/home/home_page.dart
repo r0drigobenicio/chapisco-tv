@@ -9,6 +9,8 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../core/theme/app_colors.dart';
 import '../../graphql/queries/read_categories_query.dart';
 import '../../graphql/queries/read_videos_query.dart';
+import '../widgets/my_scaffold_widget.dart';
+import '../widgets/my_sliver_app_bar_widget.dart';
 import 'widgets/category_button_widget.dart';
 import 'widgets/item_card_widget.dart';
 
@@ -23,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   final _scaffoldStateKey = GlobalKey<ScaffoldState>();
   final ItemScrollController categoryItemScrollController = ItemScrollController();
   final ItemPositionsListener categoryItemPositionsListener = ItemPositionsListener.create();
-
 
   String _activeCategoryId = '';
   String _activeItemId = '';
@@ -242,209 +243,7 @@ class _HomePageState extends State<HomePage> {
               _closeBottomSheet();
             }
           },
-          child: Scaffold(
-            backgroundColor: AppColors.blackColor,
-            body: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/Gradient Background - Mobile.png'),
-                      fit: BoxFit.cover
-                    )
-                  ),
-                ),
-                SafeArea(
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        pinned: false,
-                        snap: true,
-                        floating: true,
-                        backgroundColor: AppColors.backgroundColor.withOpacity(0.9),
-                        elevation: 0,
-                        expandedHeight: 64,
-                        collapsedHeight: 64,
-                        automaticallyImplyLeading: false,
-                        flexibleSpace: FlexibleSpaceBar(
-                          titlePadding: EdgeInsets.zero,
-                          expandedTitleScale: 1,
-                          title: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16, 
-                              horizontal: 24
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                chapiscoTVLogo,
-                                Material(
-                                  color: Colors.transparent,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
-                                    side: const BorderSide(
-                                      color: AppColors.whiteColor
-                                    )
-                                  ),
-                                  elevation: 5,
-                                  child: Ink.image(
-                                    image: const AssetImage('assets/images/jj.jpeg'),
-                                    height: 32,
-                                    width: 32,
-                                    fit: BoxFit.cover,
-                                    child: InkWell(
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ),
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: _SliverAppBarDelegate(
-                          minHeight: 56,
-                          maxHeight: 56,
-                          child: Container(
-                            color: AppColors.backgroundColor.withOpacity(0.9),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 0, 
-                              horizontal: 24
-                            ),
-                            child: Query(
-                              options: QueryOptions(
-                                document: gql(readCategoriesQuery),
-                                fetchPolicy: FetchPolicy.cacheAndNetwork,
-                                pollInterval: const Duration(seconds: 10),
-                              ),
-                              builder: (QueryResult result,
-                              { VoidCallback? refetch, FetchMore? fetchMore }) {
-                                if (result.hasException) {
-                                  return Text(result.exception.toString());
-                                }
-
-                                if (result.isLoading) {
-                                  return const Text('Carregando');
-                                }
-
-                                List? categories = result.data?['categories'];
-
-                                if (categories == null) {
-                                  return const Text('Não há categorias');
-                                }
-
-                                return ScrollablePositionedList.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemScrollController: categoryItemScrollController,
-                                  itemPositionsListener: categoryItemPositionsListener,
-                                  itemCount: categories.length,
-                                  itemBuilder: (context, index) {
-                                    final category = categories[index];
-
-                                    if (_activeCategoryId == '') {
-                                      _activeCategoryId = categories[0]?['id'] ?? '';
-                                    }
-
-                                    return CategoryButtonWidget(
-                                      id: category['id'] ?? '',
-                                      name: category['name'] ?? '', 
-                                      onPressed: () {
-                                        setState(() {
-                                          _activeCategoryId = category['id'] ?? '';
-                                        });
-
-                                        categoryItemScrollController.scrollTo(
-                                          index: index,
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.easeInOut
-                                        );
-
-                                        if (_isShowBottomSheet) {
-                                          _closeBottomSheet();
-                                        } 
-                                      }, 
-                                      activeCategoryId: _activeCategoryId
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) => 
-                                    const SizedBox(width: 16,),
-                                );
-                              }
-                            ),
-                          )
-                        )
-                      ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16, 
-                            horizontal: 24
-                          ),
-                          child: Query(
-                            options: QueryOptions(
-                              document: gql(readVideosQuery),
-                              fetchPolicy: FetchPolicy.cacheAndNetwork,
-                              pollInterval: const Duration(seconds: 10),
-                            ),
-                            builder: (QueryResult result,
-                            { VoidCallback? refetch, FetchMore? fetchMore }) {
-                              if (result.hasException) {
-                                return Text(result.exception.toString());
-                              }
-
-                              if (result.isLoading) {
-                                return const Text('Carregando');
-                              }
-
-                              List? videos = result.data?['videos'];
-
-                              if (videos == null) {
-                                return const Text('Não há vídeos');
-                              }
-
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: videos.length,
-                                itemBuilder: (context, index) {
-                                  if (_activeCategoryId == videos[index]?['category']?['id']) {
-                                    final video = videos[index];
-
-                                    return Column(
-                                      children: [
-                                        ItemCardWidget(
-                                          id: video['id'] ?? '',
-                                          image: video['image']?['url'] ?? '',
-                                          onTap: () {
-                                            _showBottomSheet(video);
-
-                                            setState(() {
-                                              _activeItemId = video['id'] ?? '';
-                                            });
-                                          },
-                                          activeItemId: _activeItemId,
-                                        ),
-                                        const SizedBox(height: 16,),
-                                      ],
-                                    );
-                                  } else {
-                                    return const SizedBox();
-                                  }
-                                }
-                              );
-                            }
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+          child: MyScaffoldWidget(
             bottomNavigationBar: Container(
               decoration: const BoxDecoration(
                 border: Border(top: BorderSide(width: 1, color: AppColors.borderColor))
@@ -484,6 +283,189 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )
               ),
+            ),
+            children: CustomScrollView(
+              slivers: [
+                MySliverAppBarWidget(
+                  pinned: false,
+                  expandedHeight: 64,
+                  collapsedHeight: 64,
+                  hasLeading: false,
+                  flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: EdgeInsets.zero,
+                    expandedTitleScale: 1,
+                    title: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16, 
+                        horizontal: 24
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          chapiscoTVLogo,
+                          Material(
+                            color: Colors.transparent,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                              side: const BorderSide(
+                                color: AppColors.whiteColor
+                              )
+                            ),
+                            elevation: 5,
+                            child: Ink.image(
+                              image: const AssetImage('assets/images/jj.jpeg'),
+                              height: 32,
+                              width: 32,
+                              fit: BoxFit.cover,
+                              child: InkWell(
+                                onTap: () {},
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverAppBarDelegate(
+                    minHeight: 56,
+                    maxHeight: 56,
+                    child: Container(
+                      color: AppColors.backgroundColor.withOpacity(0.9),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 0, 
+                        horizontal: 24
+                      ),
+                      child: Query(
+                        options: QueryOptions(
+                          document: gql(readCategoriesQuery),
+                          fetchPolicy: FetchPolicy.cacheAndNetwork,
+                          pollInterval: const Duration(seconds: 10),
+                        ),
+                        builder: (QueryResult result,
+                        { VoidCallback? refetch, FetchMore? fetchMore }) {
+                          if (result.hasException) {
+                            return Text(result.exception.toString());
+                          }
+
+                          if (result.isLoading) {
+                            return const Text('Carregando');
+                          }
+
+                          List? categories = result.data?['categories'];
+
+                          if (categories == null) {
+                            return const Text('Não há categorias');
+                          }
+
+                          return ScrollablePositionedList.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemScrollController: categoryItemScrollController,
+                            itemPositionsListener: categoryItemPositionsListener,
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) {
+                              final category = categories[index];
+
+                              if (_activeCategoryId == '') {
+                                _activeCategoryId = categories[0]?['id'] ?? '';
+                              }
+
+                              return CategoryButtonWidget(
+                                id: category['id'] ?? '',
+                                name: category['name'] ?? '', 
+                                onPressed: () {
+                                  setState(() {
+                                    _activeCategoryId = category['id'] ?? '';
+                                  });
+
+                                  categoryItemScrollController.scrollTo(
+                                    index: index,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut
+                                  );
+
+                                  if (_isShowBottomSheet) {
+                                    _closeBottomSheet();
+                                  } 
+                                }, 
+                                activeCategoryId: _activeCategoryId
+                              );
+                            },
+                            separatorBuilder: (context, index) => 
+                              const SizedBox(width: 16,),
+                          );
+                        }
+                      ),
+                    )
+                  )
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16, 
+                      horizontal: 24
+                    ),
+                    child: Query(
+                      options: QueryOptions(
+                        document: gql(readVideosQuery),
+                        fetchPolicy: FetchPolicy.cacheAndNetwork,
+                        pollInterval: const Duration(seconds: 10),
+                      ),
+                      builder: (QueryResult result,
+                      { VoidCallback? refetch, FetchMore? fetchMore }) {
+                        if (result.hasException) {
+                          return Text(result.exception.toString());
+                        }
+
+                        if (result.isLoading) {
+                          return const Text('Carregando');
+                        }
+
+                        List? videos = result.data?['videos'];
+
+                        if (videos == null) {
+                          return const Text('Não há vídeos');
+                        }
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: videos.length,
+                          itemBuilder: (context, index) {
+                            if (_activeCategoryId == videos[index]?['category']?['id']) {
+                              final video = videos[index];
+
+                              return Column(
+                                children: [
+                                  ItemCardWidget(
+                                    id: video['id'] ?? '',
+                                    image: video['image']?['url'] ?? '',
+                                    onTap: () {
+                                      _showBottomSheet(video);
+
+                                      setState(() {
+                                        _activeItemId = video['id'] ?? '';
+                                      });
+                                    },
+                                    activeItemId: _activeItemId,
+                                  ),
+                                  const SizedBox(height: 16,),
+                                ],
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }
+                        );
+                      }
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
