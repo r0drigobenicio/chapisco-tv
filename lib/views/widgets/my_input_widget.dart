@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 
-class InputWidget extends StatelessWidget {
-  InputWidget({
+class MyInputWidget extends StatelessWidget {
+  MyInputWidget({
     Key? key, 
     required this.hintText,
     this.prefixIcon,
