@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'core/theme/app_theme.dart';
 import 'views/login/login_page.dart';
@@ -9,6 +11,9 @@ import 'views/login/login_page.dart';
 Future main() async {
   await dotenv.load(fileName: ".env");
   await initHiveForFlutter();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   

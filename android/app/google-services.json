@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "816309220",
+    "project_id": "chapiscotv",
+    "storage_bucket": "chapiscotv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816309220:android:0812e2d31b60a98d721df1",
+        "android_client_info": {
+          "package_name": "com.example.chapisco_tv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816309220-3m6l237u68hf5vb9413bdveffkatcpqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2BOTOyE4WGxc8cfbpN4bNUF_r7_9ClJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816309220-3m6l237u68hf5vb9413bdveffkatcpqo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "816309220-oue90ihlfike57qmuc3mgerjtlb5c4ut.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chapiscoTv"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

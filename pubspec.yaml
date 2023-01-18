@@ -43,6 +43,7 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   email_validator: '^2.1.16'
   page_transition: "^2.0.9"
+  firebase_core: ^2.4.1
 
 dev_dependencies:
   flutter_test:
