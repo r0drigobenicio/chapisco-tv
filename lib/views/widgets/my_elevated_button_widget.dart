@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../../core/theme/app_colors.dart';
 
-class ElevatedButtonWidget extends StatelessWidget {
-  const ElevatedButtonWidget({
+class MyElevatedButtonWidget extends StatelessWidget {
+  const MyElevatedButtonWidget({
     Key? key, 
     this.onPressed, 
     required this.body, 
